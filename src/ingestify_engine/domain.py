@@ -44,21 +44,14 @@ class DocumentChunk(BaseModel):
 
     id: UUID = Field(default_factory=uuid4)
     document_id: UUID
-    chunk_index: int = Field(
-        ge=0, description="Índice sequencial do chunk no documento"
-    )
+    chunk_index: int = Field(ge=0, description="Índice sequencial do chunk no documento")
     content: str = Field(min_length=1)
     token_count: int = Field(ge=0)
 
 
-# runtime_checkable permite usar isinstance(obj, DocumentReaderProtocol) se necessário
 @runtime_checkable
 class DocumentReaderProtocol(Protocol):
-    """Protocolo (Interface) para leitores de documentos.
-
-    Qualquer classe que implemente 'read' com esta assinatura
-    satisfaz o protocolo automaticamente (Duck Typing Estático).
-    """
+    """Protocolo (Interface) para leitores de documentos."""
 
     def read(self, source_path: str) -> RawDocument: ...
 
